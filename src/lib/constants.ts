@@ -1,2 +1,5 @@
-export const SELECTED_USER_KEYS = ['id', 'firstName', 'lastName', 'maidenName', 'gender', 'email', 'age'] as const;
-export const PAGE_SIZE = 10;
+export const JobStatusColorsEnum: { [key: string]: string } = {
+	'In Progress': '#ECDE7C',
+	Completed: '#7AC14D',
+	'On Hold': '#FE4C4A',
+};

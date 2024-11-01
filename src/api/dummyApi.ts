@@ -1,9 +1,8 @@
 import { wait } from '@/lib/utils';
 
 import { JobSite } from '@/types';
-import { Pagination } from '@/types/Pagination';
 
-const jobSites = [
+const jobSites: JobSite[] = [
 	{
 		id: 'af614cec-a68c-4b28-9363-2a5f7f1e84e3',
 		name: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
@@ -151,19 +150,24 @@ const jobSites = [
 	},
 ];
 
-export const getJobSites = async () => {
-	// const response = await fetch(`${import.meta.env.VITE_API_URL}`);
-	// return response.json();
-	return Promise.resolve<Pagination<JobSite[]>>({ data: jobSites, limit: 10, skip: 0, total: jobSites.length });
-};
-
-export const getUserPosts = async (userId: string) => {
-	const response = await fetch(`${import.meta.env.VITE_API_URL}/users/${userId}/posts`);
-	return response.json();
+export const getJobSites = async (search: string) => {
+	const filteredJobSites = jobSites.filter((jobSite) => jobSite.name.toLowerCase().includes(search.toLowerCase()));
+	await wait(1000);
+	return filteredJobSites
+		? Promise.resolve({ data: filteredJobSites, limit: 10, skip: 0, total: filteredJobSites.length })
+		: Promise.reject(filteredJobSites);
 };
 
 export const getJobSiteById = async (userId: string) => {
 	const jobsite = jobSites.find((jobSite) => jobSite.id === userId) as JobSite;
 	await wait(1000);
-	return jobsite;
+	return jobsite ? Promise.resolve(jobsite) : Promise.reject(jobsite);
+};
+
+export const getJobSiteItems = async (jobSiteId: string, selectedService: string | null, searchValue: string) => {
+	const jobsite = jobSites.find((jobSite) => jobSite.id === jobSiteId) as JobSite;
+	const category = jobsite.categories.find((category) => category.id === selectedService);
+	const items = category?.items.filter((item) => item.item.toLowerCase().includes(searchValue.toLowerCase()));
+	await wait(1000);
+	return items ? Promise.resolve(items) : Promise.reject(items);
 };

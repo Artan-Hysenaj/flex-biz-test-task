@@ -1,7 +1,7 @@
 export interface JobSite {
 	id: string;
 	name: string;
-	status: string;
+	status: 'Completed' | 'In Progress' | 'On Hold';
 	categories: Category[];
 }
 

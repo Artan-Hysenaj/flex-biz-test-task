@@ -1,13 +1,17 @@
 import Icon, { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 
-import { PropsWithChildren } from 'react';
-
 import { Button, Input } from 'antd';
 
-const Caption = (_props: PropsWithChildren) => {
+const Caption = ({
+	searchValue,
+	setSearchValue,
+}: {
+	searchValue: string;
+	setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+}) => {
 	return (
 		<div className="flex justify-between mx-5 my-2.5">
-			<div className="flex items-center gap-2.5">
+			<div className="flex items-center gap-2.5 w-full">
 				<Icon
 					component={() => (
 						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -28,8 +32,15 @@ const Caption = (_props: PropsWithChildren) => {
 
 				<span>Informative piece of text that can be used regarding this modal.</span>
 			</div>
-			<div className="flex gap-5">
-				<Input type="text" className="w-[492px]" placeholder="Search a driver" prefix={<SearchOutlined />} />
+			<div className="flex gap-5 w-full self-end">
+				<Input
+					value={searchValue}
+					onChange={(e) => setSearchValue(e.target.value)}
+					type="text"
+					className="max-w-[492px] w-full"
+					placeholder="Search a driver"
+					prefix={<SearchOutlined />}
+				/>
 				<Button icon={<PlusOutlined />} iconPosition="end" type="primary">
 					Create
 				</Button>

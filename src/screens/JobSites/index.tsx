@@ -4,29 +4,26 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Table } from 'antd';
-import { ColumnsType } from 'antd/es/table';
+import { Table, Tag } from 'antd';
 
 import { getJobSites } from '@/api/dummyApi';
 
 import Caption from './components/Caption';
+import Statistics from './components/Statistics';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
-import { PAGE_SIZE } from '@/lib/constants';
+import useDebounce from '@/hooks/useDebounce';
+
+import { JobStatusColorsEnum } from '@/lib/constants';
 
 import { JobSite } from '@/types';
 import { Pagination } from '@/types/Pagination';
-import { TableParams } from '@/types/Table';
+import { ColumnsType } from '@/types/Table';
 
 export function JobSites(): JSX.Element {
 	const navigate = useNavigate();
 	const [searchValue, setSearchValue] = useState('');
-	const [tableParams, setTableParams] = useState<TableParams>({
-		pagination: {
-			current: 1,
-			pageSize: PAGE_SIZE,
-		},
-	});
+	const debouncedSearchValue = useDebounce<string>(searchValue);
 
 	const columns: ColumnsType<JobSite> = useMemo(
 		() => [
@@ -35,54 +32,52 @@ export function JobSites(): JSX.Element {
 				dataIndex: 'name',
 				key: 'name',
 				width: '70%',
+				className: 'group-hover:underline',
 			},
 			{
 				title: 'Status',
 				dataIndex: 'status',
 				key: 'status',
+				render: (value) => {
+					return (
+						<Tag className="min-w-[129px] text-center py-1 px-6" color={JobStatusColorsEnum[value]}>
+							{value}
+						</Tag>
+					);
+				},
 			},
 		],
 		[]
 	);
 
-	// const limit = Number(tableParams.pagination?.pageSize);
-	// const skip = (Number(tableParams.pagination?.current) - 1) * limit;
-	// const hasFilters = tableParams.filters && Object.values(tableParams.filters).every((filter) => filter);
-	// const hasSearch = searchValue !== '';
-
-	// const params = new URLSearchParams();
-
 	const { data, isLoading, isPlaceholderData, isError, error } = useQuery<Pagination<JobSite[]>>({
-		queryKey: ['job-sites'],
-		queryFn: () => getJobSites(),
+		queryKey: ['job-sites', debouncedSearchValue],
+		queryFn: () => getJobSites(debouncedSearchValue),
 		placeholderData: keepPreviousData,
 	});
-	console.log('🚀 ~ JobSites ~ data:', data);
 
 	return (
 		<div className="my-8">
 			<ErrorBoundary isError={isError} error={error}>
-				<Wrapper className="flex justify-between gap-4 p-2 mb-4">
-					<div className="w-full p-4 border">Test</div>
-					<div className="w-full p-4 border">Test</div>
-					<div className="w-full p-4 border">Test</div>
-				</Wrapper>
-				<Wrapper content={<span className="font-sans font-semibold leading-6">Title</span>}>
+				<Statistics data={data?.data} />
+				<Wrapper title="Title">
 					<Table
 						rowKey="id"
-						onRow={(record) => {
-							return {
-								onClick: () => {
-									navigate(`/job-sites/${record.id}`);
-								},
-							};
-						}}
 						className="overflow-x-auto"
 						loading={isLoading || isPlaceholderData}
 						columns={columns}
 						dataSource={data?.data}
 						pagination={false}
-						caption={<Caption />}
+						caption={<Caption searchValue={searchValue} setSearchValue={setSearchValue} />}
+						size="small"
+						onRow={(record) => ({
+							onClick: () => {
+								navigate(`/job-sites/${record.id}`);
+							},
+						})}
+						rowClassName={(_record, index) =>
+							`group cursor-pointer ${index % 2 === 0 ? 'bg-[#F8F8FA]' : ''}`
+						}
 					/>
 				</Wrapper>
 			</ErrorBoundary>
