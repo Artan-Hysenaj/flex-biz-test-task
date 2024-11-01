@@ -14,11 +14,6 @@ import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 
 import { JobSites } from '@/screens/JobSites';
 
-/**
- * Creates a browser router with defined routes.
- *
- * @type {BrowserRouter}
- */
 export const router = createBrowserRouter([
 	{
 		path: '',
@@ -33,10 +28,10 @@ export const router = createBrowserRouter([
 				path: '/job-sites',
 				element: <JobSites />,
 			},
-			// {
-			//     path: 'users/:id',
-			//     lazy: () => import('@/screens/UserDetails'),
-			// },
+			{
+				path: '/job-sites/:id',
+				lazy: () => import('@/screens/JobSiteDetails'),
+			},
 		],
 	},
 ]);

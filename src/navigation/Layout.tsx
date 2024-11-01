@@ -8,7 +8,7 @@ import { Layout, Spin } from 'antd';
  */
 export function MainLayout(): JSX.Element {
 	return (
-		<Layout>
+		<Layout className="bg-white">
 			<Layout.Header className="text-white flex items-center">
 				<h1 className="font-bold text-3xl">
 					<Link to="/">
