@@ -1,8 +1,8 @@
 import { wait } from '@/lib/utils';
 
-import { JobSite } from '@/types';
+import { CategoryName, JobSite } from '@/types';
 
-const jobSites: JobSite[] = [
+let jobSites: JobSite[] = [
 	{
 		id: 'af614cec-a68c-4b28-9363-2a5f7f1e84e3',
 		name: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
@@ -170,4 +170,39 @@ export const getJobSiteItems = async (jobSiteId: string, selectedService: string
 	const items = category?.items.filter((item) => item.item.toLowerCase().includes(searchValue.toLowerCase()));
 	await wait(1000);
 	return items ? Promise.resolve(items) : Promise.reject(items);
+};
+
+export const createJobSite = async (newJobSite: Pick<JobSite, 'name' | 'status'> & { categories: CategoryName[] }) => {
+	console.log('🚀 ~ createJobSite ~ newJobSite:', newJobSite);
+	jobSites = [
+		{
+			id: Math.random().toString(36),
+			...newJobSite,
+			categories: newJobSite.categories.map((category) => ({
+				id: Math.random().toString(36),
+				name: category,
+				items: [
+					{
+						id: '5ceef5e6-a0c0-45aa-b77c-9ac860ea0dd7',
+						item: 'Pencil',
+						quantity: '20',
+						description:
+							"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+						notes: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+					},
+					{
+						id: 'fb69681a-0e12-4f8b-8e11-85ace749419d',
+						item: 'Books',
+						quantity: '20000',
+						description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ',
+						notes: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ',
+					},
+				],
+			})),
+		},
+		...jobSites,
+	];
+
+	await wait(1000);
+	return Promise.resolve(newJobSite);
 };

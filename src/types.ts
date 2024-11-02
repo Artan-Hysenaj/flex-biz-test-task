@@ -1,13 +1,13 @@
 export interface JobSite {
 	id: string;
 	name: string;
-	status: 'Completed' | 'In Progress' | 'On Hold';
+	status: Status;
 	categories: Category[];
 }
 
 export interface Category {
 	id: string;
-	name: string;
+	name: CategoryName;
 	items: Item[];
 }
 
@@ -18,3 +18,6 @@ export interface Item {
 	description: string;
 	notes: string;
 }
+
+export type Status = 'Completed' | 'In Progress' | 'On Hold';
+export type CategoryName = 'Sidewalk Shed' | 'Scaffold' | 'Shoring';

@@ -9,6 +9,7 @@ import { Table, Tag } from 'antd';
 import { getJobSites } from '@/api/dummyApi';
 
 import Caption from './components/Caption';
+import JobsiteForm from './components/JobsiteForm';
 import Statistics from './components/Statistics';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
@@ -16,12 +17,14 @@ import useDebounce from '@/hooks/useDebounce';
 
 import { JobStatusColorsEnum } from '@/lib/constants';
 
-import { JobSite } from '@/types';
+import { JobSite, Status } from '@/types';
 import { Pagination } from '@/types/Pagination';
 import { ColumnsType } from '@/types/Table';
 
 export function JobSites(): JSX.Element {
 	const navigate = useNavigate();
+
+	const [formOpen, setFormOpen] = useState(false);
 	const [searchValue, setSearchValue] = useState('');
 	const debouncedSearchValue = useDebounce<string>(searchValue);
 
@@ -40,7 +43,9 @@ export function JobSites(): JSX.Element {
 				key: 'status',
 				render: (value) => {
 					return (
-						<Tag className="min-w-[129px] text-center py-1 px-6" color={JobStatusColorsEnum[value]}>
+						<Tag
+							className="min-w-[129px] text-center py-1 px-6"
+							color={JobStatusColorsEnum[value as Status]}>
 							{value}
 						</Tag>
 					);
@@ -68,8 +73,14 @@ export function JobSites(): JSX.Element {
 						columns={columns}
 						dataSource={data?.data}
 						pagination={false}
-						caption={<Caption searchValue={searchValue} setSearchValue={setSearchValue} />}
 						size="small"
+						caption={
+							<Caption
+								searchValue={searchValue}
+								setSearchValue={setSearchValue}
+								setFormOpen={setFormOpen}
+							/>
+						}
 						onRow={(record) => ({
 							onClick: () => {
 								navigate(`/job-sites/${record.id}`);
@@ -81,6 +92,8 @@ export function JobSites(): JSX.Element {
 					/>
 				</Wrapper>
 			</ErrorBoundary>
+
+			<JobsiteForm open={formOpen} setOpen={setFormOpen} />
 		</div>
 	);
 }

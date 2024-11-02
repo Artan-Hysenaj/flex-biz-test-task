@@ -5,9 +5,11 @@ import { Button, Input } from 'antd';
 const Caption = ({
 	searchValue,
 	setSearchValue,
+	setFormOpen,
 }: {
 	searchValue: string;
 	setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+	setFormOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
 	return (
 		<div className="flex justify-between mx-5 my-2.5">
@@ -41,7 +43,7 @@ const Caption = ({
 					placeholder="Search a driver"
 					prefix={<SearchOutlined />}
 				/>
-				<Button icon={<PlusOutlined />} iconPosition="end" type="primary">
+				<Button onClick={() => setFormOpen(true)} icon={<PlusOutlined />} iconPosition="end" type="primary">
 					Create
 				</Button>
 			</div>
