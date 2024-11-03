@@ -10,9 +10,7 @@ export const getJobSites = async (search: string) => {
 		jobSite.name.toLowerCase().includes(search.toLowerCase())
 	);
 	await wait(1000);
-	return filteredJobSites
-		? Promise.resolve({ data: filteredJobSites, limit: 10, skip: 0, total: filteredJobSites.length })
-		: Promise.reject(filteredJobSites);
+	return filteredJobSites ? Promise.resolve(filteredJobSites) : Promise.reject(filteredJobSites);
 };
 
 export const getJobSiteById = async (userId: string) => {

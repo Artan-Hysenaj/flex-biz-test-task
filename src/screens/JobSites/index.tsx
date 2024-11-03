@@ -18,7 +18,6 @@ import useDebounce from '@/hooks/useDebounce';
 import { JobStatusColorsEnum } from '@/lib/constants';
 
 import { JobSite, Status } from '@/types';
-import { Pagination } from '@/types/Pagination';
 import { ColumnsType } from '@/types/Table';
 
 export function JobSites(): JSX.Element {
@@ -55,7 +54,7 @@ export function JobSites(): JSX.Element {
 		[]
 	);
 
-	const { data, isLoading, isPlaceholderData, isError, error } = useQuery<Pagination<JobSite[]>>({
+	const { data, isLoading, isPlaceholderData, isError, error } = useQuery<JobSite[]>({
 		queryKey: ['job-sites', debouncedSearchValue],
 		queryFn: () => getJobSites(debouncedSearchValue),
 		placeholderData: keepPreviousData,
@@ -64,14 +63,14 @@ export function JobSites(): JSX.Element {
 	return (
 		<div className="my-8">
 			<ErrorBoundary isError={isError} error={error}>
-				<Statistics data={data?.data} />
+				<Statistics data={data} />
 				<Wrapper title="Title">
 					<Table
 						rowKey="id"
 						className="overflow-x-auto"
 						loading={isLoading || isPlaceholderData}
 						columns={columns}
-						dataSource={data?.data}
+						dataSource={data}
 						pagination={false}
 						size="small"
 						caption={

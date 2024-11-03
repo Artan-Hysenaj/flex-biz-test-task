@@ -12,7 +12,7 @@ export function MainLayout(): JSX.Element {
 			<Layout.Header className="text-white flex items-center">
 				<h1 className="font-bold text-3xl">
 					<Link to="/">
-						<span className="font-light">Dummy</span>Users
+						<span className="font-light">Job</span>Sites
 					</Link>
 				</h1>
 			</Layout.Header>
@@ -21,7 +21,7 @@ export function MainLayout(): JSX.Element {
 					<Outlet />
 				</Suspense>
 			</Layout.Content>
-			<Layout.Footer>Dummy Users ©{new Date().getFullYear()} Created by Artan Hysenaj</Layout.Footer>
+			<Layout.Footer>JobSites ©{new Date().getFullYear()} Created by Artan Hysenaj</Layout.Footer>
 		</Layout>
 	);
 }
