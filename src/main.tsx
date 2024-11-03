@@ -5,7 +5,13 @@ import { createRoot } from 'react-dom/client';
 
 import { StrictMode } from 'react';
 
+import { jobSites } from './api/DUMMY_DATA';
+
 import './index.css';
+
+if (!localStorage.getItem('jobSites')) {
+	localStorage.setItem('jobSites', JSON.stringify(jobSites));
+}
 
 const queryClient = new QueryClient();
 
