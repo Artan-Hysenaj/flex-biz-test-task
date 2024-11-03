@@ -34,13 +34,13 @@ const ItemsForm = ({
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['job-sites-items'] });
 			notification.success({
-				message: 'Job site created successfully',
+				message: 'Item updated successfully',
 			});
 			setSelectedItem(null);
 		},
 		onError: () => {
 			notification.error({
-				message: 'Failed to create job site',
+				message: 'Failed to update item',
 			});
 		},
 	});
