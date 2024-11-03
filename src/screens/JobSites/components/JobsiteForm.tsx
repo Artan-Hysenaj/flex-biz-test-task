@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { useNavigate } from 'react-router-dom';
+
 import { Col, Form, Input, notification, Row, Select } from 'antd';
 
 import { createJobSite } from '@/api/dummyApi';
@@ -9,18 +11,20 @@ import FormModal from '@/components/FormModal';
 import { categoryOptions, statusOptions } from '@/lib/options';
 
 const JobsiteForm = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
+	const navigate = useNavigate();
 	const [form] = Form.useForm();
 	const queryClient = useQueryClient();
 
 	const { mutate, isPending } = useMutation({
 		mutationFn: createJobSite,
 
-		onSuccess: () => {
+		onSuccess: (jobsite) => {
 			queryClient.invalidateQueries({ queryKey: ['job-sites'] });
 			notification.success({
 				message: 'Job site created successfully',
 			});
 			setOpen(false);
+			navigate('/job-sites/' + jobsite.id);
 		},
 		onError: () => {
 			notification.error({
@@ -36,6 +40,8 @@ const JobsiteForm = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch
 				onCancel={() => setOpen(false)}
 				destroyOnClose
 				headerTitle="Title"
+				okText="Save Changes"
+				cancelText="Cancel Changes"
 				okButtonProps={{
 					loading: isPending,
 				}}

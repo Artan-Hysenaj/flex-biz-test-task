@@ -30,37 +30,35 @@ export const getJobSiteItems = async (jobSiteId: string, selectedService: string
 };
 
 export const createJobSite = async (newJobSite: Pick<JobSite, 'name' | 'status'> & { categories: CategoryName[] }) => {
-	setJobsitesData([
-		{
+	const newItem = {
+		id: Math.random().toString(36),
+		...newJobSite,
+		categories: newJobSite.categories.map((category) => ({
 			id: Math.random().toString(36),
-			...newJobSite,
-			categories: newJobSite.categories.map((category) => ({
-				id: Math.random().toString(36),
-				name: category,
-				items: [
-					{
-						id: Math.random().toString(36),
-						item: 'Pencil',
-						quantity: '20',
-						description:
-							"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
-						notes: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
-					},
-					{
-						id: Math.random().toString(36),
-						item: 'Books',
-						quantity: '20000',
-						description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ',
-						notes: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ',
-					},
-				],
-			})),
-		},
-		...getJobsitesData(),
-	]);
+			name: category,
+			items: [
+				{
+					id: Math.random().toString(36),
+					item: 'Pencil',
+					quantity: '20',
+					description:
+						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+					notes: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+				},
+				{
+					id: Math.random().toString(36),
+					item: 'Books',
+					quantity: '20000',
+					description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ',
+					notes: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ',
+				},
+			],
+		})),
+	};
+	setJobsitesData([newItem, ...getJobsitesData()]);
 
 	await wait(1000);
-	return Promise.resolve(newJobSite);
+	return Promise.resolve(newItem);
 };
 
 export const updateJobsiteItem = async (jobSiteId: string, itemId: string, updatedItem: any) => {

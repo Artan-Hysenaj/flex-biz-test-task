@@ -63,7 +63,7 @@ const ItemsForm = ({
 				cancelButtonProps={{
 					hidden: true,
 				}}
-				okText="Save changes"
+				okText="Save Changes"
 				okButtonProps={{
 					loading: isPending,
 				}}
