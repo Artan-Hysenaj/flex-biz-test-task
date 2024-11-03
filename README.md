@@ -1,50 +1,31 @@
-# React + TypeScript + Vite
+## Installation
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+1. Clone the repository
+   ```git clone #repo#```
+2. Install dependencies
+    ```pnpm install```
 
-Currently, two official plugins are available:
+## Usage
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Start the development server ```pnpm run dev```
+2. Build for production ```pnpm run build```
 
-## Expanding the ESLint configuration
+## Libraries and frameworks used
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Vite
+- React
+- TypeScript
+- Tailwind CSS
+- Antd
+- tanstack/react-query
 
-- Configure the top-level `parserOptions` property like this:
+## Structure 
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- The `src` directory is where the main source code of the application lives.
+- Inside src, the `api` directory contains code related to the application's backend and networking.
+- The `components` directory contains reusable components that can be used throughout the application.
+- The `hooks` directory contains custom React hooks that are used throughout the application.
+- The `lib` directory contains helper functions that are used throughout the application.
+- The `navigation` directory contains code related to routing and navigation.
+- The `screens` directory contains code for the different screens or pages of the application.
+- The `types` directory contains TypeScript type definitions for the application.
