@@ -65,10 +65,15 @@ export const Component = function UserDetails(): JSX.Element {
 		[]
 	);
 
+	const setSelectedServiceHandler = (service: string | null) => {
+		setSelectedService(service);
+		setSearchValue('');
+	};
+
 	return (
 		<Fragment>
 			<Flex justify="space-between" gap={10} className="h-[calc(100vh-133px)] py-2.5">
-				<Services selectedService={selectedService} setSelectedService={setSelectedService} />
+				<Services selectedService={selectedService} setSelectedService={setSelectedServiceHandler} />
 				<Wrapper
 					title="Data grid"
 					className="w-full"
@@ -84,7 +89,11 @@ export const Component = function UserDetails(): JSX.Element {
 									prefix={<SearchOutlined />}
 								/>
 
-								<Button onClick={() => setSelectedService(null)} icon={<CloseOutlined />} type="text" />
+								<Button
+									onClick={() => setSelectedServiceHandler(null)}
+									icon={<CloseOutlined />}
+									type="text"
+								/>
 							</Flex>
 						)
 					}>

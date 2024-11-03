@@ -15,7 +15,7 @@ const Services = ({
 	setSelectedService,
 }: {
 	selectedService: string | null;
-	setSelectedService: React.Dispatch<React.SetStateAction<string | null>>;
+	setSelectedService: (service: string | null) => void;
 }) => {
 	const { id: jobSiteId } = useParams();
 
