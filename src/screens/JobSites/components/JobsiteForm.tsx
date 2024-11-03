@@ -19,12 +19,12 @@ const JobsiteForm = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch
 		mutationFn: createJobSite,
 
 		onSuccess: (jobsite) => {
+			setOpen(false);
+			navigate('/job-sites/' + jobsite.id);
 			queryClient.invalidateQueries({ queryKey: ['job-sites'] });
 			notification.success({
 				message: 'Job site created successfully',
 			});
-			setOpen(false);
-			navigate('/job-sites/' + jobsite.id);
 		},
 		onError: () => {
 			notification.error({
