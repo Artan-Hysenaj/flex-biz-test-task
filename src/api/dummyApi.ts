@@ -167,7 +167,9 @@ export const getJobSiteById = async (userId: string) => {
 export const getJobSiteItems = async (jobSiteId: string, selectedService: string | null, searchValue: string) => {
 	const jobsite = jobSites.find((jobSite) => jobSite.id === jobSiteId) as JobSite;
 	const category = jobsite.categories.find((category) => category.id === selectedService);
-	const items = category?.items.filter((item) => item.item.toLowerCase().includes(searchValue.toLowerCase()));
+	const items = category?.items.filter((item) =>
+		JSON.stringify(item).toLowerCase().includes(searchValue.toLowerCase())
+	);
 	await wait(1000);
 	return items ? Promise.resolve(items) : Promise.reject(items);
 };
@@ -205,4 +207,28 @@ export const createJobSite = async (newJobSite: Pick<JobSite, 'name' | 'status'>
 
 	await wait(1000);
 	return Promise.resolve(newJobSite);
+};
+
+export const updateJobsiteItem = async (jobSiteId: string, itemId: string, updatedItem: any) => {
+	const jobsite = jobSites.find((jobSite) => jobSite.id === jobSiteId) as JobSite;
+	const category = jobsite.categories.find((category) => category.items.find((item) => item.id === itemId));
+	const item = category?.items.find((item) => item.id === itemId);
+	if (item) {
+		item.item = updatedItem.item;
+		item.quantity = updatedItem.quantity;
+		item.description = updatedItem.description;
+		item.notes = updatedItem.notes;
+	}
+
+	await wait(1000);
+	return item ? Promise.resolve(updatedItem) : Promise.reject(item);
+};
+export const getItemOptions = async () => {
+	const itemsSet = new Set(
+		jobSites.flatMap((jobSite) => jobSite.categories.flatMap((category) => category.items.map((item) => item.item)))
+	);
+	const items = Array.from(itemsSet).map((item) => ({ label: item, value: item }));
+
+	await wait(1000);
+	return items ? Promise.resolve(items) : Promise.reject(items);
 };
